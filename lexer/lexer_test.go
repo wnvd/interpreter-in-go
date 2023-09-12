@@ -14,7 +14,8 @@ func TestNextToken(t *testing.T) {
         x + y;
     };
 
-    let result = add(five, ten);`
+    let result = add(five, ten);
+    `
 
 	tests := []struct {
 		expectedType    token.TokenType
@@ -43,6 +44,7 @@ func TestNextToken(t *testing.T) {
 		{token.IDENT, "x"},
 		{token.PLUS, "+"},
 		{token.IDENT, "y"},
+		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
 		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
@@ -65,6 +67,10 @@ func TestNextToken(t *testing.T) {
 
 		if tok.Type != tt.expectedType {
 			t.Fatalf("tests[%d] - token wrong. expected=%q, got=%q", i, tt.expectedType, tok.Type)
+		}
+
+		if tok.Literal != tt.expectedLiteral {
+			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
 		}
 	}
 }
