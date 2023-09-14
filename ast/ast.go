@@ -19,12 +19,12 @@ type Expression interface {
 }
 
 type Program struct {
-	Statemens []Statement
+	Statements []Statement
 }
 
 func (p *Program) TokenLiteral() string {
-	if len(p.Statemens) > 0 {
-		return p.Statemens[0].TokenLiteral()
+	if len(p.Statements) > 0 {
+		return p.Statements[0].TokenLiteral()
 	} else {
 		return ""
 	}
@@ -36,8 +36,8 @@ type LetStatement struct {
 	Value Expression
 }
 
-func (ls *LetStatement) statementNode()  {}
-func (ls *LetStatement) expressionNode() {}
+func (ls *LetStatement) statementNode()       {}
+func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
 type Identifier struct {
 	Token token.Token // the token.IDENT token
