@@ -29,13 +29,13 @@ type ReturnStatement struct {
 	ReturnValue Expression
 }
 
-type ExpressStatement struct {
+type ExpressionStatement struct {
 	Token      token.Token
 	Expression Expression
 }
 
-func (es *ExpressStatement) statementNode()       {}
-func (es *ExpressStatement) TokenLiteral() string { return es.Token.Literal }
+func (es *ExpressionStatement) statementNode()       {}
+func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
 
 func (rs *ReturnStatement) statementNode()       {}
 func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
@@ -92,7 +92,7 @@ func (rs *ReturnStatement) String() string {
 	return out.String()
 }
 
-func (es *ExpressStatement) String() string {
+func (es *ExpressionStatement) String() string {
 	if es.Expression != nil {
 		return es.Expression.String()
 	}
