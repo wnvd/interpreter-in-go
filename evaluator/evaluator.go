@@ -336,23 +336,6 @@ func evalStringInfixExpression(
 	return &object.String{Value: leftVal + rightVal}
 }
 
-var builtins = map[string]*object.Builtin{
-	"len": &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 {
-				return newError("wrong number of arguments. got=%d, want=1", len(args))
-			}
-
-			switch arg := args[0].(type) {
-			case *object.String:
-				return &object.Integer{Value: int64(len(arg.Value))}
-			default:
-				return newError("arguments to `len` not supported, to %s", args[0].Type())
-			}
-		},
-	},
-}
-
 func evalIndexExpression(left, index object.Object) object.Object {
 	switch {
 	case left.Type() == object.ARRAY_OBJ && index.Type() == object.INTEGER_OBJ:
