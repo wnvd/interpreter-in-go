@@ -230,7 +230,7 @@ func TestErrorHandling(t *testing.T) {
 		{
 			"foobar",
 			"indentifier not found: foobar",
-        },
+		},
 	}
 
 	for _, tt := range tests {
@@ -342,5 +342,35 @@ func TestStringConcatenation(t *testing.T) {
 
 	if str.Value != "Hello World!" {
 		t.Errorf("String has wrong value, got=%q", str.Value)
+	}
+}
+
+func TestBuiltinFunction(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{`len("")`, 0},
+		{`len("four")`, 4},
+		{`len("hello world")`, 11},
+		{`len(1)`, "argument to `len` not supported, got INTERGER"},
+		{`len("one", "two")`, "wrong number of arguments. got`2, want=1"},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+
+		switch expected := tt.expected.(type) {
+		case int:
+			testIntegerObject(t, evaluated, int64(expected))
+		case string:
+			errObj, ok := evaluated.(*object.Error)
+			if !ok {
+				t.Errorf("object is not Error. got=%T (%+v)", evaluated, evaluated)
+			}
+			if errObj.Message != expected {
+				t.Errorf("wrong error message. expected=%q, got=%q", expected, errObj.Message)
+			}
+		}
 	}
 }
